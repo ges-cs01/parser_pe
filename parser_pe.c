@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 
     fclose(file);
     
-    if(!is_pe) 
+    if(!is_pe(buffer)) 
         error("file doesn't look like a PE.");
 
     return 0; 

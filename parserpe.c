@@ -9,24 +9,30 @@ void error(char *str) {
 }
 
 int main(int argc, char *argv[]) {
-    FILE *file;
-    unsigned char buffer[32];
-
     if(argc != 2)
         error("necessary param missing.");
 
-    file = fopen(argv[1], "rb");
-    
-    if(file == NULL) 
-        error("file not found or without read permission.");
+    PEFILE pe;
 
-    if(fread(buffer, 32, 1, file) != 1) 
-        error("could not read bytes");
+    pe.filepath = argv[1];
 
-    fclose(file);
+    parserpetest_init(&pe);
+
+    if(parserpetest_ispe(&pe))
+        printf("File is a PE.\n");
+    else 
+        error("file is not a PE.\n");
+
+    printf("Path: %s\n", pe.filepath);
+    printf("Magic number: %x\n", pe.hdr_dos->e_magic);
+    printf("Bytes on last page of file: %d\n", pe.hdr_dos->e_cblp);
+    printf("Pages in file: %x\n", pe.hdr_dos->e_cp);
+    printf("Relocations: %x\n", pe.hdr_dos->e_crlc);
+    printf("Overlay number: %x\n", pe.hdr_dos->e_ovno);
+    printf("File address of relocation table: %x\n", pe.hdr_dos->e_lfarlc);
+    printf("COFF header offset: %x\n", pe.hdr_dos->e_lfanew);
     
-    if(!parserpetest_ispe(buffer)) 
-        error("file doesn't look like a PE.");
+    parserpetest_deinit(&pe);
 
     return 0; 
 }

@@ -6,8 +6,6 @@ bool parserpetest_ispe(PEFILE *pe) {
 
 bool parserpetest_init(PEFILE *pe) {
     FILE *file = fopen(pe->filepath, "rb");
-
-
     
     if(!file) 
         return false;
@@ -16,7 +14,9 @@ bool parserpetest_init(PEFILE *pe) {
     if(!pe->hdr_dos)
         return false;
 
-    fread(pe->hdr_dos, sizeof(IMAGE_DOS_HEADER), 1, file);
+    if(fread(pe->hdr_dos, sizeof(IMAGE_DOS_HEADER), 1, file) != 1) {
+        return false;
+    }
 
     int coff = pe->hdr_dos->e_lfanew + 0x4;
 
@@ -27,7 +27,10 @@ bool parserpetest_init(PEFILE *pe) {
     if(!pe->hdr_coff)
         return false;
 
-    fread(pe->hdr_coff, sizeof(IMAGE_COFF_HEADER), 1, file);
+    if(fread(pe->hdr_coff, sizeof(IMAGE_COFF_HEADER), 1, file) != 1) {
+        return false;
+    }
+    
     fclose(file);
     
     return true;
@@ -36,4 +39,7 @@ bool parserpetest_init(PEFILE *pe) {
 void parserpetest_deinit(PEFILE *pe) {
     if(pe->hdr_dos) 
         free(pe->hdr_dos);
+
+    if(pe->hdr_coff)
+        free(pe->hdr_coff);
 }

@@ -1,5 +1,5 @@
 all:
-	gcc -o parserpe parserpe.c -L./lib/ -lparserpetest
+	gcc -o parserpe -g parserpe.c -L./lib/ -lparserpetest
 
 clean:
 	rm -f parserpe

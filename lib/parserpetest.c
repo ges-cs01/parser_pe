@@ -6,6 +6,8 @@ bool parserpetest_ispe(PEFILE *pe) {
 
 bool parserpetest_init(PEFILE *pe) {
     FILE *file = fopen(pe->filepath, "rb");
+
+
     
     if(!file) 
         return false;
@@ -15,7 +17,17 @@ bool parserpetest_init(PEFILE *pe) {
         return false;
 
     fread(pe->hdr_dos, sizeof(IMAGE_DOS_HEADER), 1, file);
-    
+
+    int coff = pe->hdr_dos->e_lfanew + 0x4;
+
+    if(fseek(file, coff, SEEK_SET) == -1) 
+        return false;
+  
+    pe->hdr_coff = malloc(sizeof(IMAGE_COFF_HEADER));
+    if(!pe->hdr_coff)
+        return false;
+
+    fread(pe->hdr_coff, sizeof(IMAGE_COFF_HEADER), 1, file);
     fclose(file);
     
     return true;

@@ -29,9 +29,24 @@ typedef struct {
 
 #pragma pack(pop)
 
+#pragma pack(push, 1)
+
+typedef struct {
+    uint16_t Machine;
+    uint16_t NumberOfSections;
+    uint32_t TimeDateStamp;
+    uint32_t PointerToSymbolTable;
+    uint32_t NumberOfSymbols;
+    uint16_t SizeOfOptionalHeader;
+    uint16_t Characteristics;
+} IMAGE_COFF_HEADER;
+
+#pragma pack(pop)
+
 typedef struct {
     char *filepath;
     IMAGE_DOS_HEADER *hdr_dos;
+    IMAGE_COFF_HEADER *hdr_coff;
 } PEFILE;
 
 bool parserpetest_ispe(PEFILE *pe);

@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     printf("\tCOFF header offset: 0x%x\n", pe.hdr_dos->e_lfanew);
     printf("\n---COFF Header---\n");
     printf("\tMachine:: 0x%x\n", pe.hdr_coff->Machine);
-    printf("\tTime date stamp: %d\n", pe.hdr_coff->TimeDateStamp);
+    printf("\tTime date stamp: %d (epoch)\n", pe.hdr_coff->TimeDateStamp);
     printf("\tNumber of sections: %x\n", pe.hdr_coff->NumberOfSections);
     printf("\tPointer to symbols: %x\n", pe.hdr_coff->PointerToSymbolTable);
     printf("\tNumber of symbols: %x\n", pe.hdr_coff->NumberOfSymbols);

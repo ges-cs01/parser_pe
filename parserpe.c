@@ -30,6 +30,8 @@ int main(int argc, char *argv[]) {
     printf("\tPages in file: %x\n", pe.hdr_dos->e_cp);
     printf("\tRelocations: %x\n", pe.hdr_dos->e_crlc);
     printf("\tOverlay number: %x\n", pe.hdr_dos->e_ovno);
+    printf("\tOEM id: %x\n", pe.hdr_dos->e_oemid);
+    printf("\tOEM info: %x\n", pe.hdr_dos->e_oeminfo);
     printf("\tFile address of relocation table: 0x%x\n", pe.hdr_dos->e_lfarlc);
     printf("\tCOFF header offset: 0x%x\n", pe.hdr_dos->e_lfanew);
     printf("\n---COFF Header---\n");
